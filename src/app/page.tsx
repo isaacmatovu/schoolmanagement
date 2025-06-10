@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { IoIosSchool } from "react-icons/io";
 import { MdOutlineSecurity } from "react-icons/md";
 import { GiProgression } from "react-icons/gi";
@@ -8,7 +7,7 @@ import { FaBook } from "react-icons/fa";
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden">
         {/* Header Section */}
         <div className="bg-blue-600 flex flex-col items-center justify-center py-8 gap-y-4 text-white">
           <IoIosSchool className="text-5xl" />
