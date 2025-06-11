@@ -4,7 +4,7 @@ import Sidebar from "@/components/admin/Sidebar";
 export default function page() {
   return (
     <div>
-      <Header />
+      <Header title="Admin" />
       <Sidebar />
     </div>
   );
