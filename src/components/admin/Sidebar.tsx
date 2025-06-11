@@ -5,7 +5,6 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 // import { RiParentFill } from "react-icons/ri";
 import Student from "./Student";
 import Teachers from "./Teacher";
-import Parent from "./Parent";
 
 export default function Sidebar() {
   const [active, setActive] = useState("Students");
