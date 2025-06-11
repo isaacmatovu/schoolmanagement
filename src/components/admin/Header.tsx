@@ -4,7 +4,7 @@ interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-  const { title } = props;
+  const { title }: HeaderProps = props;
   return (
     <div className="flex items-center justify-between bg-gray-100 p-6 border-b border-gray-400">
       <div className="flex items-center gap-x-4">
