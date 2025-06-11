@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { PiStudentFill } from "react-icons/pi";
-import { FaChalkboardTeacher } from "react-icons/fa";
 
 export default function TeacherSideBar() {
   const [active, setActive] = useState("Students");
@@ -21,9 +20,9 @@ export default function TeacherSideBar() {
     // You can add additional logic here for when a class is selected
   };
 
-  const renderComponent = () => {
-    // Your existing render logic
-  };
+  // const renderComponent = () => {
+  //   // Your existing render logic
+  // };
 
   return (
     <div className="flex flex-col sm:flex-row w-full min-h-screen">
