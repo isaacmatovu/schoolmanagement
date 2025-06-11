@@ -1,63 +1,87 @@
-import { PiStudentThin } from "react-icons/pi";
 import Button from "@/components/common/Button";
 import StudentStatistics from "./StudentStatistics";
+import Form from "../common/form";
+import { useState } from "react";
 
 export default function Student() {
+  const [showClassDropdown, setShowClassDropdown] = useState(false);
+  const [selectedClass, setSelectedClass] = useState("");
+
+  const toggleClassDropdown = () => {
+    setShowClassDropdown(!showClassDropdown);
+  };
+
+  const handleClassSelect = (classLevel: string) => {
+    setSelectedClass(classLevel);
+    setShowClassDropdown(false);
+    // You can add additional logic here for when a class is selected
+    console.log("Selected class:", classLevel);
+  };
+
   return (
-    <div className="flex justify-between">
-      <div>
+    <div className="flex flex-col gap-6 lg:gap-8">
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
         <div>
-          <h1 className="text-2xl text-gray-600">Student</h1>
-          <p className="text-xl text-gray-600">
+          <h1 className="text-2xl font-medium text-gray-600">Student</h1>
+          <p className="text-lg text-gray-600">
             Manage Student record and enrollment
           </p>
         </div>
-        <form className="flex flex-col gap-y-4 w-full max-w-[300px] border border-gray-400 p-4 rounded-lg">
-          <div className="flex justify-center items-center">
-            <h1>Register Student</h1>
-            <PiStudentThin className="text-4xl text-blue-500" />
+
+        {/* Buttons - positioned differently based on screen size */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 relative">
+          <div className="relative">
+            <Button onClick={toggleClassDropdown}>
+              {showClassDropdown ? "Close Class" : "View Students"}
+            </Button>
+
+            {/* Dropdown Menu */}
+            {showClassDropdown && (
+              <div className="absolute left-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+                <div
+                  className="px-4 py-2 hover:bg-blue-100 cursor-pointer rounded-t-md"
+                  onClick={() => setShowClassDropdown(false)}
+                >
+                  Select Class
+                </div>
+                <div className="border-t border-gray-200">
+                  {["S1", "S2", "S3", "S4", "S5", "S6"].map((classLevel) => (
+                    <div
+                      key={classLevel}
+                      className={`px-4 py-2 hover:bg-blue-100 cursor-pointer ${
+                        selectedClass === classLevel
+                          ? "bg-blue-50 font-medium"
+                          : ""
+                      }`}
+                      onClick={() => handleClassSelect(classLevel)}
+                    >
+                      {classLevel}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-          <label className="text-sm flex justify-between items-center">
-            Name
-            <input
-              type="text"
-              placeholder="Enter name"
-              className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
-            />
-          </label>
-          <label className="text-sm flex justify-between items-center">
-            Email
-            <input
-              type="email"
-              placeholder="Enter email"
-              className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
-            />
-          </label>
-          <label className="text-sm flex justify-between items-center">
-            Tel
-            <input
-              type="text"
-              placeholder="Enter phone number"
-              className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
-            />
-          </label>
-          <label className="text-sm flex justify-between items-center">
-            Password
-            <input
-              type="password"
-              placeholder="Enter password"
-              className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
-            />
-          </label>
-          <Button text="Register" />
-        </form>
+
+          <Button>Import Students</Button>
+        </div>
       </div>
-      <div className="flex justify-start items-center gap-x-4">
-        <Button text="View Student" />
-        <Button text="Import Students" />
-      </div>
-      <div className="pt-9">
-        <StudentStatistics />
+
+      {/* Main Content Area */}
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        {/* Form Section - takes full width on mobile, 2/3 on larger screens */}
+        <div className="flex-1 lg:flex-[2]">
+          <Form title="Student" />
+        </div>
+
+        {/* Statistics Section - appears below on mobile, to the side on larger screens */}
+        <div className="flex-1 lg:flex-[1]">
+          <StudentStatistics
+            studentStats="Student Statistics"
+            TotalStats={67}
+          />
+        </div>
       </div>
     </div>
   );
