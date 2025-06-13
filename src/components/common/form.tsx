@@ -44,6 +44,15 @@ export default function Form(props: FormProps) {
           className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
         />
       </label>
+      <label className="text-sm flex justify-between items-center">
+        Class
+        <input
+          type="text"
+          placeholder="Enter password"
+          className="border border-gray-300 shadow-2xl py-2 px-1 rounded-lg focus:outline-none"
+        />
+      </label>
+
       <Button text="Register" />
     </form>
   );
