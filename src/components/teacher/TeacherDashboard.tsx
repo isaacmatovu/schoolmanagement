@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { PiStudentFill } from "react-icons/pi";
+// import Students from "../Students/Students";
 
 export default function TeacherSideBar() {
   const [active, setActive] = useState("Students");
@@ -21,7 +22,10 @@ export default function TeacherSideBar() {
   };
 
   // const renderComponent = () => {
-  //   // Your existing render logic
+  //   return (
+  //     // Your existing render logic
+  //     // <Students />
+  //   );
   // };
 
   return (
