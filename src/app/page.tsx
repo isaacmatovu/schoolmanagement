@@ -6,8 +6,8 @@ import { FaBook } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-2xl overflow-hidden">
         {/* Header Section */}
         <div className="bg-blue-600 flex flex-col items-center justify-center py-8 gap-y-4 text-white">
           <IoIosSchool className="text-5xl" />
@@ -52,9 +52,11 @@ export default function Home() {
         </div>
 
         {/* Login Section */}
-        <div className="flex flex-col items-center bg-white p-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome Back</h2>
-          <p className="text-gray-600 mt-2 mb-6">
+        <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-6">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+            Welcome Back
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mt-2 mb-6">
             Sign in to access your academic dashboard
           </p>
 
@@ -64,18 +66,18 @@ export default function Home() {
               name="username"
               id="username"
               placeholder="Enter your username"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
             />
             <input
               type="password"
               name="password"
               id="password"
               placeholder="Enter your password"
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
             />
             <button
               type="button"
-              className="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition-colors font-medium"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md transition-colors font-medium"
             >
               Sign In
             </button>
