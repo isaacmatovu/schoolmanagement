@@ -2,6 +2,7 @@
 import { PiStudentThin } from "react-icons/pi";
 import Button from "./Button";
 import { ChangeEvent, useState } from "react";
+//interface props
 interface FormProps {
   title: string;
 }
