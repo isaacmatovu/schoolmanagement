@@ -121,7 +121,7 @@ export default function Form(props: FormProps) {
         <p className="text-red-500 text-xs mt-1">{errors.class}</p>
       )}
       <Button type="submit">
-        {isSubmitting ? "Regitering..." : "Register"}
+        {isSubmitting ? "Registering..." : "Register"}
       </Button>
     </form>
   );
