@@ -1,54 +1,41 @@
-# Marks Management System
+# 📚 Marks Management System
 
-_A centralized platform for tracking academic performance and enhancing communication between schools, teachers, students, and parents._
+A **cloud-based academic platform** built with Next.js and Firebase that streamlines grade management, enhances educator-parent communication, and provides real-time student performance analytics.
 
----
+## 🌟 Features
 
-## 📌 Overview
+### Core Functionality
+- **Real-time Grade Tracking**: Instant updates visible to authorized users
+- **Multi-role Dashboards**:
+  - Admin: School-wide analytics & reporting
+  - Teachers: Grade entry with validation
+- **Automated Report Generation**: PDF exports with institutional branding
 
-A web-based system designed to:
+### Firebase-Powered Infrastructure
+- 🔐 **Authentication**: Firebase Auth with role-based access
+- 🗃️ **Database**: Firestore with optimized data structure
+- ⚡ **Serverless Functions**: Firebase Cloud Functions for backend logic
+- 📁 **Storage**: Secure document repository for report cards
 
-- **Track** student grades and academic progress in real-time.
-- **Connect** teachers, parents, and administrators through a unified interface.
-- **Automate** reporting and data-driven decision-making.
+## 🛠️ Tech Stack
 
-### Key Features
+| Component       | Technology                          |
+|-----------------|-------------------------------------|
+| Frontend        | Next.js 14 (App Router)             |
+| State Management| React Context + Zustand             |
+| Backend         | Firebase Services                   |
+| UI              | Tailwind CSS                        |
+| CI/CD           | GitHub Actions + Firebase Hosting   |
 
-✅ Real-time grade access  
-✅ Role-based dashboards (Admin, Teacher, Parent, Student)  
-✅ Secure data management (PostgreSQL + JWT)  
-✅ Responsive Next.js frontend with Golang backend
+## 📦 Installation
 
----
+### Prerequisites
+- Node.js v18+
+- Firebase project 
+- Firebase CLI (`npm install -g firebase-tools`)
 
-## 🎯 Problem Statement
-
-### Current Challenges Addressed:
-
-- **Parents**: No real-time visibility into grades, reliance on physical reports.
-- **Teachers**: Manual grade entry, inefficient communication.
-- **Admins**: Lack of analytics for at-risk students, cumbersome reporting.
-
----
-
-## 🏗️ Architecture
-
-### Tech Stack
-
-| Layer        | Technology | Key Functionality                   |
-| ------------ | ---------- | ----------------------------------- |
-| **Frontend** | Next.js    | SSR, WebSocket real-time updates    |
-| **Backend**  | Golang     | REST API, JWT auth, data validation |
-| **Database** | PostgreSQL | ACID-compliant academic records     |
-
-![High-Level Architecture](media/image2.png)
-
----
-
-## 👥 User Roles & Permissions
-
-| Feature          | Admin | Teacher | Parent | Student |
-| ---------------- | ----- | ------- | ------ | ------- |
-| Grade Entry      | ✓     | ✓       | ✗      | ✗       |
-| View Grades      | ✓     | ✓       | ✓      | ✓       |
-| Generate Reports | ✓     | View    | View   | View    |
+### Setup Steps
+1. Clone repository:
+   ```bash
+   git clone https://github.com/isaacmatovu/schoolmanagement
+   cd schoolmanagement
