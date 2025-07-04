@@ -28,4 +28,4 @@ jobs:
           channelId: live
           projectId: schoolmanagement-53cd7
         env:
-    FIREBASE_CLI_EXPERIMENTS: webframeworks
+          FIREBASE_CLI_EXPERIMENTS: webframeworks

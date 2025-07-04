@@ -29,4 +29,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SCHOOLMANAGEMENT_53CD7 }}
           projectId: schoolmanagement-53cd7
         env:
-    FIREBASE_CLI_EXPERIMENTS: webframeworks
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
