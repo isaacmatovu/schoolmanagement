@@ -1,17 +1,33 @@
 "use client";
 import { useState } from "react";
 import { PiStudentFill } from "react-icons/pi";
+import Button from "../common/Button";
+import { FiLogOut } from "react-icons/fi";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebase";
+import { useRouter } from "next/navigation";
+
 // import Students from "../Students/Students";
 
 export default function TeacherSideBar() {
   const [active, setActive] = useState("Students");
   const [showStudentDropdown, setShowStudentDropdown] = useState(false);
   const [selectedClass, setSelectedClass] = useState("");
+  const router = useRouter();
 
   const toggleStudentDropdown = () => {
     setShowStudentDropdown(!showStudentDropdown);
     if (active !== "Students") {
       setActive("Students");
+    }
+  };
+
+  const handleLogOut = async (): Promise<void> => {
+    try {
+      await signOut(auth);
+      router.push("/");
+    } catch (error) {
+      alert("failed to logout" + error);
     }
   };
 
@@ -81,20 +97,9 @@ export default function TeacherSideBar() {
         </div>
 
         {/* Teachers Link */}
-        {/* <div
-          className={`flex items-center justify-center sm:justify-start gap-3 rounded-lg p-3 cursor-pointer transition-colors flex-1 sm:flex-none ${
-            active === "Teachers"
-              ? "bg-blue-500 text-white"
-              : "hover:bg-blue-300 text-black"
-          }`}
-          onClick={() => {
-            setActive("Teachers");
-            setShowStudentDropdown(false);
-          }}
-        >
-          <FaChalkboardTeacher className="text-xl md:text-2xl" />
-          <p className="text-sm sm:text-base md:text-lg">Teachers</p>
-        </div> */}
+        <Button text="Logout" onClick={handleLogOut}>
+          <FiLogOut className="text-xl md:text-2xl" />
+        </Button>
       </div>
 
       {/* Main Content Area */}
@@ -102,3 +107,5 @@ export default function TeacherSideBar() {
     </div>
   );
 }
+
+//
