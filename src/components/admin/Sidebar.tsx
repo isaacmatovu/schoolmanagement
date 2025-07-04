@@ -5,9 +5,15 @@ import { FaChalkboardTeacher } from "react-icons/fa";
 // import { RiParentFill } from "react-icons/ri";
 import Student from "./Student";
 import Teachers from "./Teacher";
+import { FiLogOut } from "react-icons/fi";
+import Button from "../common/Button";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 export default function Sidebar() {
   const [active, setActive] = useState("Students");
+  const router = useRouter();
 
   const renderComponent = () => {
     switch (active) {
@@ -19,6 +25,15 @@ export default function Sidebar() {
       //   return <Parent />;
       default:
         return <Student />;
+    }
+  };
+
+  const handleLogOut = async (): Promise<void> => {
+    try {
+      await signOut(auth);
+      router.push("/");
+    } catch (error) {
+      alert("Failed to logout:" + error);
     }
   };
 
@@ -57,17 +72,9 @@ export default function Sidebar() {
         </div>
 
         {/* Parent Link (commented out) */}
-        {/* <div
-          className={`flex items-center justify-center sm:justify-start gap-3 rounded-lg p-3 cursor-pointer ${
-            active === "Parent"
-              ? "bg-blue-500 text-white"
-              : "hover:bg-blue-300 text-black"
-          }`}
-          onClick={() => setActive("Parent")}
-        >
-          <RiParentFill className="text-xl md:text-2xl" />
-          <p className="text-sm sm:text-base md:text-lg">Parent</p>
-        </div> */}
+        <Button text="LogOut" onClick={handleLogOut}>
+          <FiLogOut className="text-xl md:text-2xl" />
+        </Button>
       </div>
 
       {/* Main Content Area */}
@@ -75,3 +82,4 @@ export default function Sidebar() {
     </div>
   );
 }
+//  <FiLogOut className="text-xl md:text-2xl" />
