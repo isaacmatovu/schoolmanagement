@@ -9,12 +9,14 @@ export default function Button(props: ButtonProps) {
   return (
     <div className="flex justify-center items-center">
       <button
-        className="bg-black text-white px-4 py-2 rounded-lg shadow-2xl cursor-pointer"
+        className="flex gap-x-2 bg-blue-500 hover:bg-blue-300 hover:text-black text-white px-4 py-2 rounded-lg shadow-2xl cursor-pointer"
         onClick={onClick}
         type={type}
       >
-        {text} {children}
+        {children} {text}
       </button>
     </div>
   );
 }
+// "bg-blue-500 text-white"
+//                 : "hover:bg-blue-300 text-black"
