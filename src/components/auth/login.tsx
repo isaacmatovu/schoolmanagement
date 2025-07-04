@@ -20,6 +20,15 @@ interface FormErrors {
   password?: string;
 }
 
+interface FirebaseAuthError {
+  code: string;
+  message: string;
+  // Add other properties you might need
+}
+
+function isFirebaseAuthError(error: unknown): error is FirebaseAuthError {
+  return typeof error === "object" && error !== null && "code" in error;
+}
 export default function LoginForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -95,10 +104,10 @@ export default function LoginForm() {
           router.push("/admin");
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       let errorMessage = "Login failed. Please try again.";
 
-      if (error.code) {
+      if (isFirebaseAuthError(error)) {
         switch (error.code) {
           case "auth/invalid-email":
             errorMessage = "Invalid email address format.";
@@ -116,6 +125,8 @@ export default function LoginForm() {
               "This account has been disabled. Please contact support.";
             break;
         }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
       }
 
       setSubmitError(errorMessage);

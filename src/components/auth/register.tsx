@@ -22,6 +22,15 @@ interface FormErrors {
   role?: string;
 }
 
+interface FirebaseAuthError {
+  code: string;
+  message: string;
+}
+
+function isFirebaseAuthError(error: unknown): error is FirebaseAuthError {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
 export default function Register() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,10 +97,10 @@ export default function Register() {
       // Show success message before redirect
       setSubmitError(null);
       setTimeout(() => router.push("/login"), 500);
-    } catch (error: any) {
+    } catch (error: unknown) {
       let errorMessage = "Registration failed. Please try again.";
 
-      if (error.code) {
+      if (isFirebaseAuthError(error)) {
         switch (error.code) {
           case "auth/email-already-in-use":
             errorMessage = "This email is already registered.";
@@ -106,6 +115,8 @@ export default function Register() {
             errorMessage = "Email/password accounts are not enabled.";
             break;
         }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
       }
 
       setSubmitError(errorMessage);
