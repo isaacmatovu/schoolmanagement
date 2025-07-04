@@ -28,3 +28,5 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SCHOOLMANAGEMENT_53CD7 }}
           projectId: schoolmanagement-53cd7
+        env:
+    FIREBASE_CLI_EXPERIMENTS: webframeworks

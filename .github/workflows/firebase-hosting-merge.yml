@@ -27,3 +27,5 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SCHOOLMANAGEMENT_53CD7 }}
           channelId: live
           projectId: schoolmanagement-53cd7
+        env:
+    FIREBASE_CLI_EXPERIMENTS: webframeworks
