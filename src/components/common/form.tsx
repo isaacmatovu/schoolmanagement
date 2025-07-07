@@ -77,11 +77,11 @@ export default function Form(props: FormProps) {
       await addDoc(collection(db, collectionName), formData);
 
       setForm(initialFormState); // Reset form after successful submission
-    } catch (error) {
-      let message: string = "An error occured while submitting the form";
+    } catch {
+      const message: string = "An error occured while submitting the form";
       setSubmitError(message);
     } finally {
-      let message: string = "Form submitted successfully";
+      const message: string = "Form submitted successfully";
       setFormSuccessMessage(message);
       setTimeout(() => {
         setFormSuccessMessage("");
