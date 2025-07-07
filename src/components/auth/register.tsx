@@ -9,6 +9,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Form {
   email: string;
@@ -96,7 +97,7 @@ export default function Register() {
 
       // Show success message before redirect
       setSubmitError(null);
-      setTimeout(() => router.push("/login"), 500);
+      router.push("/login");
     } catch (error: unknown) {
       let errorMessage = "Registration failed. Please try again.";
 
@@ -373,6 +374,10 @@ export default function Register() {
                   "Sign Up"
                 )}
               </button>
+              <div className="flex text-center justify-center gap-2">
+                <p className="text-blue-600">Already registered?</p>{" "}
+                <Link href="/login">Login</Link>
+              </div>
             </div>
           </div>
         </form>
