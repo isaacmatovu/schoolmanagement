@@ -62,15 +62,15 @@ export default function Form(props: FormProps) {
       const collectionName = isStudentForm ? "students" : "teachers";
       const formData = isStudentForm
         ? {
-            name: form.name,
-            stream: (form as StudentData).stream,
-            class: form.class,
+            name: form.name.toUpperCase(),
+            stream: (form as StudentData).stream.toUpperCase(),
+            class: form.class.toUpperCase(),
             createdAt: form.createdAt,
           }
         : {
-            name: form.name,
-            subject: (form as TeacherData).subject,
-            class: form.class,
+            name: form.name.toUpperCase(),
+            subject: (form as TeacherData).subject.toUpperCase(),
+            class: form.class.toUpperCase(),
             createdAt: form.createdAt,
           };
 
@@ -138,9 +138,10 @@ export default function Form(props: FormProps) {
             placeholder="Enter name"
             className={`border ${
               errors.name ? "border-red-500" : "border-gray-300"
-            } shadow-2xl py-2 px-1 rounded-lg focus:outline-none`}
+            } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
             onChange={handleChange}
             value={form.name}
+            style={{ textTransform: "uppercase" }}
           />
         </label>
         {errors.name && (
@@ -161,9 +162,10 @@ export default function Form(props: FormProps) {
                 placeholder="Enter stream"
                 className={`border ${
                   errors.stream ? "border-red-500" : "border-gray-300"
-                } shadow-2xl py-2 px-1 rounded-lg focus:outline-none`}
+                } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
                 onChange={handleChange}
                 value={isStudentForm ? (form as StudentData).stream : ""}
+                style={{ textTransform: "uppercase" }}
               />
             </label>
             {errors.stream && (
@@ -180,9 +182,10 @@ export default function Form(props: FormProps) {
                 placeholder="Enter subject"
                 className={`border ${
                   errors.subject ? "border-red-500" : "border-gray-300"
-                } shadow-2xl py-2 px-1 rounded-lg focus:outline-none`}
+                } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
                 onChange={handleChange}
                 value={!isStudentForm ? (form as TeacherData).subject : ""}
+                style={{ textTransform: "uppercase" }}
               />
             </label>
             {errors.subject && (
@@ -199,9 +202,10 @@ export default function Form(props: FormProps) {
             placeholder="Enter class"
             className={`border ${
               errors.class ? "border-red-500" : "border-gray-300"
-            } shadow-2xl py-2 px-1 rounded-lg focus:outline-none`}
+            } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
             onChange={handleChange}
             value={form.class}
+            style={{ textTransform: "uppercase" }}
           />
         </label>
         {errors.class && (
