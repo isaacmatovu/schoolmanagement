@@ -274,7 +274,6 @@ export default function Register() {
                   onChange={handleChange}
                 >
                   <option value="Teacher">Teacher</option>
-                  <option value="Admin">Admin</option>
                 </select>
                 {errors.role && (
                   <p className="text-red-500 text-xs mt-1 flex items-center">
