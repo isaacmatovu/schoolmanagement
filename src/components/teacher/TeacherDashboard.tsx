@@ -1,19 +1,52 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiStudentFill } from "react-icons/pi";
 import Button from "../common/Button";
 import { FiLogOut } from "react-icons/fi";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { useRouter } from "next/navigation";
+import { fetchStudentsByClass } from "../services/StudentService";
+import Marks from "./marks";
 
 // import Students from "../Students/Students";
+interface Students {
+  id: string;
+  name: string;
+  stream: string;
+  class: string;
+}
 
 export default function TeacherSideBar() {
   const [active, setActive] = useState("Students");
   const [showStudentDropdown, setShowStudentDropdown] = useState(false);
   const [selectedClass, setSelectedClass] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [students, setStudents] = useState<Students[]>([]);
+  const [error, setError] = useState("");
   const router = useRouter();
+  const [displayMarks, setDisplayMarks] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<any>(null);
+
+  useEffect(() => {
+    const loadStudents = async () => {
+      if (selectedClass) {
+        setLoading(true);
+        try {
+          const data = await fetchStudentsByClass(selectedClass);
+          setStudents(data);
+          setError("");
+        } catch {
+          const message: string = "Failed to fetch students";
+          setError(message);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadStudents();
+  }, [selectedClass]);
 
   const toggleStudentDropdown = () => {
     setShowStudentDropdown(!showStudentDropdown);
@@ -43,6 +76,16 @@ export default function TeacherSideBar() {
   //     // <Students />
   //   );
   // };
+  const handleMarks = (student: Students): void => {
+    console.log("Selected student:", student); // Debug log
+    setDisplayMarks(true);
+    setSelectedStudent(student);
+  };
+
+  const handleClose = (): void => {
+    setDisplayMarks(false);
+    setSelectedStudent(null);
+  };
 
   return (
     <div className="flex flex-col sm:flex-row w-full min-h-screen">
@@ -103,7 +146,68 @@ export default function TeacherSideBar() {
       </div>
 
       {/* Main Content Area */}
-      {/* <div className="flex-1 p-4 sm:p-6 overflow-auto">{renderComponent()}</div> */}
+      <div className="flex-1 p-4 sm:p-6 overflow-auto">
+        {displayMarks && selectedStudent && (
+          <Marks handleClose={handleClose} student={selectedStudent} />
+        )}
+        {selectedClass && !displayMarks && (
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h2 className="text-xl font-semibold mb-4">
+              Students in Class {selectedClass}
+            </h2>
+
+            {loading ? (
+              <p>Loading students...</p>
+            ) : error ? (
+              <p className="text-red-500">{error}</p>
+            ) : students.length === 0 ? (
+              <p>No students found for this class</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Stream
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Class
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {students.map((student: Students) => (
+                      <tr key={student.id}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {student.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {student.stream}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {student.class}
+                        </td>
+                        <td
+                          onClick={() => handleMarks(student)}
+                          className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600"
+                        >
+                          Add marks
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600">
+                          Edit marks
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
