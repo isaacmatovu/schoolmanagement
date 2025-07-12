@@ -26,10 +26,10 @@ export default function TeacherSideBar() {
   const [error, setError] = useState("");
   const router = useRouter();
   const [displayMarks, setDisplayMarks] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState<Students | null>(null);
 
   useEffect(() => {
-    const loadStudents = async () => {
+    const loadStudents = async (): Promise<void> => {
       if (selectedClass) {
         setLoading(true);
         try {
@@ -77,7 +77,6 @@ export default function TeacherSideBar() {
   //   );
   // };
   const handleMarks = (student: Students): void => {
-    console.log("Selected student:", student); // Debug log
     setDisplayMarks(true);
     setSelectedStudent(student);
   };
