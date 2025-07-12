@@ -2,9 +2,16 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "../common/Button";
 import { addMarks } from "../services/MarksService";
 
+interface Student {
+  id: string;
+  name: string;
+  stream: string;
+  class: string;
+}
+
 interface MarksProps {
   handleClose: () => void;
-  student: any; // Changed to receive full student object
+  student: Student; // Changed to receive full student object
 }
 
 export default function Marks(props: MarksProps) {
@@ -54,7 +61,7 @@ export default function Marks(props: MarksProps) {
       setTimeout(() => {
         handleClose();
       }, 1500);
-    } catch (err) {
+    } catch {
       setError("Failed to add marks. Please try again.");
     } finally {
       setLoading(false);

@@ -26,7 +26,7 @@ export default function TeacherSideBar() {
   const [error, setError] = useState("");
   const router = useRouter();
   const [displayMarks, setDisplayMarks] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
 
   useEffect(() => {
     const loadStudents = async () => {

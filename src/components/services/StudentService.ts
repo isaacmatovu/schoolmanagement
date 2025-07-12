@@ -1,6 +1,13 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase";
 
+interface Student {
+  id: string;
+  name: string;
+  stream: string;
+  class: string;
+}
+
 // Fetch students by class level
 export const fetchStudentsByClass = async (classLevel: string) => {
   try {
@@ -8,9 +15,15 @@ export const fetchStudentsByClass = async (classLevel: string) => {
     const q = query(studentsRef, where("class", "==", classLevel));
     const querySnapshot = await getDocs(q);
 
-    const students: any[] = [];
+    const students: Student[] = [];
     querySnapshot.forEach((doc) => {
-      students.push({ id: doc.id, ...doc.data() });
+      const data = doc.data();
+      students.push({
+        id: doc.id,
+        name: data.name || "", // Provide defaults if needed
+        stream: data.stream || "",
+        class: data.class || "",
+      });
     });
 
     return students;

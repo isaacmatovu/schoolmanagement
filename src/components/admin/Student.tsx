@@ -4,11 +4,18 @@ import Form from "../common/form";
 import { useState, useEffect } from "react";
 import { fetchStudentsByClass } from "../services/StudentService";
 
+interface Student {
+  id: string;
+  name: string;
+  stream: string;
+  class: string;
+}
+
 export default function Student() {
   const [showClass, setShowClass] = useState<boolean>(false);
   const [showClassDropdown, setShowClassDropdown] = useState(false);
   const [selectedClass, setSelectedClass] = useState("");
-  const [students, setStudents] = useState<any[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -125,7 +132,7 @@ export default function Student() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {students.map((student) => (
+                  {students.map((student: Student) => (
                     <tr key={student.id}>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {student.name}

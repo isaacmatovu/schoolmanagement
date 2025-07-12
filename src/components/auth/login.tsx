@@ -331,7 +331,7 @@ export default function LoginForm() {
               </button>
               <div className="flex gap-3 justify-center text-center">
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <a
                     href="/register"
                     className="text-blue-600 hover:underline dark:text-blue-400"
