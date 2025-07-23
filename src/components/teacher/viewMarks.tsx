@@ -81,7 +81,7 @@ export default function ViewMarks({
       <div className="bg-white rounded-3xl p-6 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">
-            {student.name}'s Marks ({student.class})
+            {student.name} &apos; Marks ({student.class})
           </h2>
           <Button onClick={handleCloseMarks}>Close</Button>
         </div>

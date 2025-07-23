@@ -57,10 +57,6 @@ export default function TeacherSideBar() {
     }
   };
 
-  const handleShowMarks = () => {
-    setShowMarks(true);
-  };
-
   const handleLogOut = async (): Promise<void> => {
     try {
       await signOut(auth);
