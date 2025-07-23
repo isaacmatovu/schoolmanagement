@@ -8,6 +8,7 @@ import { auth } from "../../../firebase";
 import { useRouter } from "next/navigation";
 import { fetchStudentsByClass } from "../services/StudentService";
 import Marks from "./marks";
+import ViewMarks from "./viewMarks";
 
 // import Students from "../Students/Students";
 interface Students {
@@ -27,6 +28,7 @@ export default function TeacherSideBar() {
   const router = useRouter();
   const [displayMarks, setDisplayMarks] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Students | null>(null);
+  const [showMarks, setShowMarks] = useState<boolean>(false);
 
   useEffect(() => {
     const loadStudents = async (): Promise<void> => {
@@ -53,6 +55,10 @@ export default function TeacherSideBar() {
     if (active !== "Students") {
       setActive("Students");
     }
+  };
+
+  const handleShowMarks = () => {
+    setShowMarks(true);
   };
 
   const handleLogOut = async (): Promise<void> => {
@@ -84,6 +90,14 @@ export default function TeacherSideBar() {
   const handleClose = (): void => {
     setDisplayMarks(false);
     setSelectedStudent(null);
+  };
+
+  const handleViewMarks = () => {
+    setShowMarks(true);
+  };
+
+  const handleCloseMarks = () => {
+    setShowMarks(false);
   };
 
   return (
@@ -197,6 +211,18 @@ export default function TeacherSideBar() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600">
                           Edit marks
+                        </td>
+                        <td
+                          onClick={handleViewMarks}
+                          className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600"
+                        >
+                          View marks
+                          {showMarks ? (
+                            <ViewMarks
+                              handleCloseMarks={handleCloseMarks}
+                              student={student}
+                            />
+                          ) : null}
                         </td>
                       </tr>
                     ))}
