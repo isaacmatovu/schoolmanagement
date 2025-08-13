@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Button from "../common/Button";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { FaSpinner } from "react-icons/fa"; // Added spinner
 
 interface Mark {
   id: string;
@@ -41,9 +42,9 @@ export default function ViewMarks({
           const data = doc.data();
           return {
             id: doc.id,
-            subject: data.subject,
-            marks: data.marks,
-            examType: data.examType,
+            subject: data.subject || "N/A", // Handle missing subject
+            marks: data.marks || 0, // Handle missing marks
+            examType: data.examType || "N/A", // Handle missing examType
             createdAt: data.createdAt?.toDate() || null,
           };
         });
@@ -52,7 +53,7 @@ export default function ViewMarks({
         setError("");
       } catch (err) {
         console.error("Error fetching marks:", err);
-        setError("Failed to load marks data");
+        setError("Failed to load marks data. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -61,7 +62,8 @@ export default function ViewMarks({
     fetchMarks();
   }, [student.id]);
 
-  const formatExamType = (type: string) => {
+  // Memoize formatting function
+  const formatExamType = useCallback((type: string) => {
     switch (type) {
       case "BOT":
         return "Beginning of Term";
@@ -74,20 +76,27 @@ export default function ViewMarks({
       default:
         return type;
     }
-  };
+  }, []);
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] z-50">
-      <div className="bg-white rounded-3xl p-6 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] z-50"
+      onClick={handleCloseMarks} // Close when clicking backdrop
+    >
+      <div
+        className="bg-white rounded-3xl p-6 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">
-            {student.name} &apos; Marks ({student.class})
+            {student.name}'s Marks ({student.class})
           </h2>
           <Button onClick={handleCloseMarks}>Close</Button>
         </div>
 
         {loading && (
-          <div className="text-center py-8">
+          <div className="text-center py-8 flex flex-col items-center">
+            <FaSpinner className="animate-spin text-3xl text-blue-500 mb-2" />
             <p>Loading marks...</p>
           </div>
         )}
@@ -136,7 +145,11 @@ export default function ViewMarks({
                       {mark.marks}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {mark.createdAt?.toLocaleDateString() || "N/A"}
+                      {mark.createdAt?.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }) || "N/A"}
                     </td>
                   </tr>
                 ))}
