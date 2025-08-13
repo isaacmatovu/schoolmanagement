@@ -89,7 +89,7 @@ export default function ViewMarks({
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">
-            {student.name}'s Marks ({student.class})
+            {student.name}&apos; Marks ({student.class})
           </h2>
           <Button onClick={handleCloseMarks}>Close</Button>
         </div>
