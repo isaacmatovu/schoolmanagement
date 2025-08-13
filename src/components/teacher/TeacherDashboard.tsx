@@ -10,7 +10,6 @@ import { fetchStudentsByClass } from "../services/StudentService";
 import Marks from "./marks";
 import ViewMarks from "./viewMarks";
 
-// import Students from "../Students/Students";
 interface Students {
   id: string;
   name: string;
@@ -28,7 +27,7 @@ export default function TeacherSideBar() {
   const router = useRouter();
   const [displayMarks, setDisplayMarks] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<Students | null>(null);
-  const [showMarks, setShowMarks] = useState<boolean>(false);
+  const [viewingMarksFor, setViewingMarksFor] = useState<Students | null>(null); // Changed to track specific student
 
   useEffect(() => {
     const loadStudents = async (): Promise<void> => {
@@ -69,15 +68,8 @@ export default function TeacherSideBar() {
   const handleClassSelect = (classLevel: string) => {
     setSelectedClass(classLevel);
     setShowStudentDropdown(false);
-    // You can add additional logic here for when a class is selected
   };
 
-  // const renderComponent = () => {
-  //   return (
-  //     // Your existing render logic
-  //     // <Students />
-  //   );
-  // };
   const handleMarks = (student: Students): void => {
     setDisplayMarks(true);
     setSelectedStudent(student);
@@ -86,14 +78,6 @@ export default function TeacherSideBar() {
   const handleClose = (): void => {
     setDisplayMarks(false);
     setSelectedStudent(null);
-  };
-
-  const handleViewMarks = () => {
-    setShowMarks(true);
-  };
-
-  const handleCloseMarks = () => {
-    setShowMarks(false);
   };
 
   return (
@@ -159,6 +143,15 @@ export default function TeacherSideBar() {
         {displayMarks && selectedStudent && (
           <Marks handleClose={handleClose} student={selectedStudent} />
         )}
+
+        {/* Render ViewMarks outside the table */}
+        {viewingMarksFor && (
+          <ViewMarks
+            handleCloseMarks={() => setViewingMarksFor(null)}
+            student={viewingMarksFor}
+          />
+        )}
+
         {selectedClass && !displayMarks && (
           <div className="bg-white p-4 rounded-lg shadow">
             <h2 className="text-xl font-semibold mb-4">
@@ -185,6 +178,9 @@ export default function TeacherSideBar() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Class
                       </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -199,26 +195,25 @@ export default function TeacherSideBar() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {student.class}
                         </td>
-                        <td
-                          onClick={() => handleMarks(student)}
-                          className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600"
-                        >
-                          Add marks
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600">
-                          Edit marks
-                        </td>
-                        <td
-                          onClick={handleViewMarks}
-                          className="px-6 py-4 whitespace-nowrap cursor-pointer hover:text-blue-600"
-                        >
-                          View marks
-                          {showMarks ? (
-                            <ViewMarks
-                              handleCloseMarks={handleCloseMarks}
-                              student={student}
-                            />
-                          ) : null}
+                        <td className="px-6 py-4 whitespace-nowrap flex gap-2">
+                          <span
+                            onClick={() => handleMarks(student)}
+                            className="cursor-pointer hover:text-blue-600"
+                          >
+                            Add marks
+                          </span>
+                          <span className="cursor-pointer hover:text-blue-600">
+                            Edit marks
+                          </span>
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setViewingMarksFor(student);
+                            }}
+                            className="cursor-pointer hover:text-blue-600"
+                          >
+                            View marks
+                          </span>
                         </td>
                       </tr>
                     ))}
@@ -232,5 +227,3 @@ export default function TeacherSideBar() {
     </div>
   );
 }
-
-//
