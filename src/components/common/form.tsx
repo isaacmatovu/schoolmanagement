@@ -78,7 +78,8 @@ export default function Form(props: FormProps) {
 
       setForm(initialFormState); // Reset form after successful submission
     } catch {
-      const message: string = "An error occured while submitting the form";
+      const message: string =
+        "An error occured while submitting the form check your internet connection";
       setSubmitError(message);
     } finally {
       const message: string = "Form submitted successfully";
@@ -148,9 +149,6 @@ export default function Form(props: FormProps) {
           <p className="text-red-500 text-xs mt-1">{errors.name}</p>
         )}
 
-        {errors.stream && (
-          <p className="text-red-500 text-xs mt-1">{errors.stream}</p>
-        )}
         {/* Conditional field based on form type */}
         {isStudentForm ? (
           <>
