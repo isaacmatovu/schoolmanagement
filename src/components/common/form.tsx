@@ -27,10 +27,10 @@ interface TeacherData {
 type FormValues = StudentData | TeacherData;
 
 interface FormErrors {
-  name?: string;
-  stream?: string;
-  class?: string;
-  subject?: string;
+  name: string;
+  stream: string;
+  class: string;
+  subject: string;
 }
 
 export default function Form(props: FormProps) {
@@ -42,21 +42,47 @@ export default function Form(props: FormProps) {
     : { name: "", subject: "", class: "", createdAt: new Date() };
   //tracks form data
   const [form, setForm] = useState<FormValues>(initialFormState);
-  const [errors, setErrors] = useState<FormErrors>({}); //tracks errors
+  const [errors, setErrors] = useState<FormErrors>({
+    name: "",
+    stream: "",
+    class: "",
+    subject: "",
+  }); //tracks errors
   const [isSubmitting, setIsSubmitting] = useState(false); //tracks form submission
   const [submitError, setSubmitError] = useState<string | null>(null); //tracks submission error
   const [succcesFormMessage, setFormSuccessMessage] = useState<string | null>(
     null
   ); //tracks form submission success message
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const errors = validateForm(form); // Always validate on submit
-    setErrors(errors);
-    if (Object.keys(errors).length === 0) {
-      setIsSubmitting(true);
+  const validateForm = () => {
+    const errors: FormErrors = { name: "", class: "", stream: "", subject: "" };
+    //name validation
+    if (!form.name.trim()) {
+      errors.name = "name is required";
+    } else if (form.name.length < 2) {
+      errors.name = "Name must be atleast 2 characters";
+    }
+    //stream validation
+    if (!(form as StudentData).stream) {
+      errors.stream = "stream is required";
     }
 
+    //subject validation for teacher form
+    if (!(form as TeacherData).subject) {
+      errors.subject = "Subject is required";
+    }
+
+    //class validation
+    if (!form.class.trim()) {
+      errors.class = "Class is required";
+    }
+    return errors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const Error = validateForm();
+    setErrors(Error);
     try {
       //determine collection based on the form type
       const collectionName = isStudentForm ? "students" : "teachers";
@@ -89,32 +115,6 @@ export default function Form(props: FormProps) {
       }, 500);
       setIsSubmitting(false);
     }
-  };
-
-  const validateForm = (values: FormValues): FormErrors => {
-    const errors: FormErrors = {};
-    //name validation
-    if (!values.name.trim()) {
-      errors.name = "name is required";
-    } else if (values.name.length < 2) {
-      errors.name = "Name must be atleast 2 characters";
-    }
-    if (isStudentForm) {
-      //stream validation
-      if (!(values as StudentData).stream?.trim()) {
-        errors.stream = "stream is required";
-      }
-    } else {
-      //subject validation for teacher form
-      if (!(values as TeacherData).subject?.trim()) {
-        errors.stream = "Subject is required";
-      }
-    }
-    //class validation
-    if (!values.class.trim()) {
-      errors.class = "Class is required";
-    }
-    return errors;
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
