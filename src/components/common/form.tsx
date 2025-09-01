@@ -53,6 +53,7 @@ export default function Form(props: FormProps) {
   const [succcesFormMessage, setFormSuccessMessage] = useState<string | null>(
     null
   ); //tracks form submission success message
+  const [completeForm, setCompleteForm] = useState<string>("");
 
   const validateForm = () => {
     const errors: FormErrors = { name: "", class: "", stream: "", subject: "" };
@@ -81,9 +82,9 @@ export default function Form(props: FormProps) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const Error = validateForm();
-    setErrors(Error);
+
     try {
+      setIsSubmitting(true);
       //determine collection based on the form type
       const collectionName = isStudentForm ? "students" : "teachers";
       const formData = isStudentForm
@@ -99,20 +100,40 @@ export default function Form(props: FormProps) {
             class: form.class.toUpperCase(),
             createdAt: form.createdAt,
           };
-
+      const Error = validateForm();
+      setErrors(Error);
       await addDoc(collection(db, collectionName), formData);
 
-      setForm(initialFormState); // Reset form after successful submission
-    } catch {
-      const message: string =
-        "An error occured while submitting the form check your internet connection";
-      setSubmitError(message);
-    } finally {
       const message: string = "Form submitted successfully";
       setFormSuccessMessage(message);
       setTimeout(() => {
         setFormSuccessMessage("");
       }, 500);
+
+      setForm(initialFormState); // Reset form after successful submission
+    } catch {
+      if (
+        form.class !== "" &&
+        form.name !== "" &&
+        (form as StudentData).stream !== "" &&
+        (form as TeacherData).subject !== ""
+      ) {
+        const message: string =
+          "An error occured while submitting the form check your internet connection";
+        setCompleteForm("");
+        setSubmitError(message);
+      } else if (
+        errors.class === "" &&
+        errors.name === "" &&
+        errors.stream === "" &&
+        errors.subject === ""
+      ) {
+        setSubmitError("");
+        setCompleteForm("fill the whole form");
+
+        console.log("didnt submit");
+      }
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -162,7 +183,7 @@ export default function Form(props: FormProps) {
                   errors.stream ? "border-red-500" : "border-gray-300"
                 } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
                 onChange={handleChange}
-                value={isStudentForm ? (form as StudentData).stream : ""}
+                value={isStudentForm && (form as StudentData).stream}
                 style={{ textTransform: "uppercase" }}
               />
             </label>
@@ -182,7 +203,7 @@ export default function Form(props: FormProps) {
                   errors.subject ? "border-red-500" : "border-gray-300"
                 } shadow-2xl py-2 px-1 rounded-lg focus:outline-none uppercase`}
                 onChange={handleChange}
-                value={!isStudentForm ? (form as TeacherData).subject : ""}
+                value={!isStudentForm && (form as TeacherData).subject}
                 style={{ textTransform: "uppercase" }}
               />
             </label>
@@ -212,6 +233,9 @@ export default function Form(props: FormProps) {
         <Button type="submit">
           {isSubmitting ? "Registering..." : "Register"}
         </Button>
+        {completeForm && (
+          <p className="text-red-500 text-xs mt-1">{completeForm}</p>
+        )}
         {submitError && (
           <p className="text-red-500 text-xs mt-1">{submitError}</p>
         )}
